@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>記賬本</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0fff0;
+            padding: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2e8b57;
+        }
+        form {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        input[type="text"], input[type="date"], input[type="number"] {
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #90ee90;
+            color: #000;
+        }
+        .delete-btn {
+            background-color: #ff7f7f;
+            color: white;
+        }
+        .category-box {
+            background-color: #ffffff;
+            border-left: 5px solid #32cd32;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>我的記賬本</h1>
+
+    <h2>查詢特定日期支出</h2>
+    <form action="/search" method="post">
+        <input type="date" name="search_date" required>
+        <button type="submit">查詢</button>
+    </form>
+
+    <h2>新增支出</h2>
+    <form action="/add" method="post">
+        <p>日期: <input type="date" name="date" required></p>
+        <p>類別: <input type="text" name="category" required></p>
+        <p>金額: <input type="number" name="amount" step="0.01" required></p>
+        <p>備註: <input type="text" name="note"></p>
+        <button type="submit">新增支出</button>
+    </form>
+
+    <h2>所有支出紀錄</h2>
+    {% for exp in expenses %}
+        <div class="category-box">
+            <strong>{{ exp.date }}</strong> | <strong>{{ exp.category }}</strong> | 💵 ${{ exp.amount|round(2) }}<br>
+            備註: {{ exp.note }}<br>
+            <a href="/edit/{{ exp.id }}"><button class="edit-btn">✏️ 編輯</button></a>
+            <form action="/delete/{{ exp.id }}" method="post" style="display:inline;">
+                <button type="submit" class="delete-btn" onclick="return confirm('確定要刪除這筆支出嗎？')">🗑 刪除</button>
+            </form>
+        </div>
+    {% endfor %}
+
+    <h3>總支出: ${{ total|round(2) }}</h3>
+</body>
+</html>

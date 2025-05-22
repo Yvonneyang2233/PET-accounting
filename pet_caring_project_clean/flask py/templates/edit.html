@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>編輯支出</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0fff0;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2e8b57;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 500px;
+        }
+        input[type="text"], input[type="date"], input[type="number"] {
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #90ee90;
+            color: #000;
+            cursor: pointer;
+        }
+        a {
+            color: #2e8b57;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>編輯支出紀錄</h1>
+    <form action="/update/{{ expense.id }}" method="post">
+        <p>日期: <input type="date" name="date" value="{{ expense.date }}" required></p>
+        <p>類別: <input type="text" name="category" value="{{ expense.category }}" required></p>
+        <p>金額: <input type="number" step="0.01" name="amount" value="{{ expense.amount }}" required></p>
+        <p>備註: <input type="text" name="note" value="{{ expense.note }}"></p>
+        <button type="submit">儲存修改</button>
+    </form>
+
+    <a href="/">⬅ 返回首頁</a>
+</body>
+</html>
